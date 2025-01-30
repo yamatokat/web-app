@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カウントダウンタイマー</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        h1 {
+            font-size: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>カウントダウンタイマー</h2>
+    <input type="number" id="timeInput" placeholder="秒数を入力">
+    <button onclick="startCountdown()">開始</button>
+    <button onclick="resetCountdown()">リセット</button>
+    <h1 id="timerDisplay">00:00</h1>
+
+    <script>
+        let countdown;
+        function startCountdown() {
+            let seconds = parseInt(document.getElementById("timeInput").value);
+            if (isNaN(seconds) || seconds <= 0) {
+                alert("正しい秒数を入力してください");
+                return;
+            }
+            clearInterval(countdown);  // 既存のタイマーをクリア
+            updateDisplay(seconds);
+
+            countdown = setInterval(() => {
+                seconds--;
+                updateDisplay(seconds);
+                if (seconds <= 0) {
+                    clearInterval(countdown);
+                    document.getElementById("timerDisplay").textContent = "タイマー終了！";
+                }
+            }, 1000);
+        }
+
+        function resetCountdown() {
+            clearInterval(countdown);
+            document.getElementById("timerDisplay").textContent = "00:00";
+        }
+
+        function updateDisplay(seconds) {
+            let min = String(Math.floor(seconds / 60)).padStart(2, '0');
+            let sec = String(seconds % 60).padStart(2, '0');
+            document.getElementById("timerDisplay").textContent = `${min}:${sec}`;
+        }
+    </script>
+
+</body>
+
+</html>
