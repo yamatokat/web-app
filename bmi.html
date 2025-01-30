@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI計算</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        input,
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        .result {
+            font-size: 20px;
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>BMI計算</h2>
+    <input type="number" id="heightInput" placeholder="身長 (cm)">
+    <input type="number" id="weightInput" placeholder="体重 (kg)">
+    <button onclick="calculateBMI()">計算</button>
+    <div id="bmiResult" class="result"></div>
+
+    <script>
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById("heightInput").value);
+            const weight = parseFloat(document.getElementById("weightInput").value);
+
+            if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
+                document.getElementById("bmiResult").textContent = "正しい値を入力してください。";
+                document.getElementById("bmiResult").className = "error";
+                return;
+            }
+
+            const bmi = weight / ((height / 100) ** 2);
+            let resultText = `BMI: ${bmi.toFixed(2)} - `;
+
+            if (bmi < 18.5) {
+                resultText += "低体重";
+            } else if (bmi < 24.9) {
+                resultText += "標準体重";
+            } else if (bmi < 29.9) {
+                resultText += "過体重";
+            } else {
+                resultText += "肥満";
+            }
+
+            document.getElementById("bmiResult").textContent = resultText;
+            document.getElementById("bmiResult").className = "result";
+        }
+    </script>
+
+    <a href="index.html">戻る</a>
+</body>
+
+</html>
