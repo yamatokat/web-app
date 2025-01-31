@@ -1,49 +1,109 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>カウントダウンタイマー</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; }
-        input, button { padding: 10px 15px; font-size: 16px; margin: 10px; }
-        h1 { font-size: 40px; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .display {
+            font-size: 50px;
+            margin: 20px;
+        }
+
+        .num-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 200px;
+            margin: 20px auto;
+        }
+
+        .num-pad button {
+            font-size: 20px;
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .controls {
+            margin: 20px;
+        }
     </style>
 </head>
+
 <body>
     <h2>カウントダウンタイマー</h2>
-    <input type="number" id="timeInput" placeholder="秒数を入力 (最大10000)" min="1" max="10000">
-    <button onclick="startCountdown()">開始</button>
-    <button onclick="resetCountdown()">リセット</button>
-    <h1 id="timerDisplay">00:00:00</h1>
+
+    <div class="display" id="timerDisplay">0</div>
+
+    <div class="num-pad">
+        <button onclick="inputNumber(1)">1</button>
+        <button onclick="inputNumber(2)">2</button>
+        <button onclick="inputNumber(3)">3</button>
+        <button onclick="inputNumber(4)">4</button>
+        <button onclick="inputNumber(5)">5</button>
+        <button onclick="inputNumber(6)">6</button>
+        <button onclick="inputNumber(7)">7</button>
+        <button onclick="inputNumber(8)">8</button>
+        <button onclick="inputNumber(9)">9</button>
+        <button onclick="clearInput()">C</button>
+        <button onclick="inputNumber(0)">0</button>
+        <button onclick="backspace()">←</button>
+    </div>
+
+    <div class="controls">
+        <button onclick="startCountdown()">開始</button>
+        <button onclick="resetCountdown()">リセット</button>
+    </div>
 
     <script>
         let countdownInterval;
         let timerSeconds = 0;
+        let inputValue = "";
+
+        function inputNumber(num) {
+            if (inputValue.length < 5) { // 最大5桁 (10000秒)
+                inputValue += num;
+                updateInputDisplay();
+            }
+        }
+
+        function clearInput() {
+            inputValue = "";
+            updateInputDisplay();
+        }
+
+        function backspace() {
+            inputValue = inputValue.slice(0, -1);
+            updateInputDisplay();
+        }
+
+        function updateInputDisplay() {
+            document.getElementById("timerDisplay").textContent = inputValue || "0";
+        }
 
         function startCountdown() {
-            const inputTime = document.getElementById("timeInput").value;
-            timerSeconds = parseInt(inputTime);
-
+            timerSeconds = parseInt(inputValue);
             if (isNaN(timerSeconds) || timerSeconds <= 0 || timerSeconds > 10000) {
                 alert("1〜10000の範囲で秒数を入力してください");
                 return;
             }
-
             clearInterval(countdownInterval);
-            updateTimerDisplay();
             countdownInterval = setInterval(updateTimerDisplay, 1000);
         }
 
         function updateTimerDisplay() {
             if (timerSeconds <= 0) {
                 clearInterval(countdownInterval);
-                document.getElementById("timerDisplay").textContent = "タイマー終了！";
+                document.getElementById("timerDisplay").textContent = "終了！";
             } else {
-                const hrs = String(Math.floor(timerSeconds / 3600)).padStart(2, '0');
-                const min = String(Math.floor((timerSeconds % 3600) / 60)).padStart(2, '0');
-                const sec = String(timerSeconds % 60).padStart(2, '0');
-                document.getElementById("timerDisplay").textContent = `${hrs}:${min}:${sec}`;
+                document.getElementById("timerDisplay").textContent = timerSeconds;
                 timerSeconds--;
             }
         }
@@ -51,11 +111,12 @@
         function resetCountdown() {
             clearInterval(countdownInterval);
             timerSeconds = 0;
-            document.getElementById("timerDisplay").textContent = "00:00:00";
-            document.getElementById("timeInput").value = '';
+            inputValue = "";
+            updateInputDisplay();
         }
     </script>
 
     <a href="index.html">戻る</a>
 </body>
+
 </html>
