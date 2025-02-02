@@ -10,16 +10,47 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 30px;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
         }
 
         a {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 20px;
+            display: block;
+            padding: 15px 25px;
+            font-size: 18px;
             text-decoration: none;
             background-color: #4CAF50;
             color: white;
             border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        @media (max-width: 600px) {
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            a {
+                width: 80%;
+                font-size: 16px;
+                padding: 12px 20px;
+            }
         }
     </style>
 </head>
@@ -28,10 +59,12 @@
     <h2>カウントダウンタイマー & BMI計算</h2>
     <p>以下のリンクからそれぞれの機能を選択してください。</p>
 
-    <a href="countdown.html">カウントダウンタイマー</a>
-    <a href="bmi.html">BMI計算</a>
-    <a href="10000countdown.html">10000秒タイマー</a>
-    <a href="quick_sort.html">クイックソート</a>
+    <div class="button-container">
+        <a href="countdown.html">カウントダウンタイマー</a>
+        <a href="bmi.html">BMI計算</a>
+        <a href="10000countdown.html">10000秒タイマー</a>
+        <a href="quick_sort.html">クイックソート</a>
+    </div>
 </body>
 
 </html>
